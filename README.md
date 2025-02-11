@@ -1,3 +1,5 @@
+<img width="914" alt="Screenshot 2025-02-11 at 12 12 06 PM" src="https://github.com/user-attachments/assets/e4cdef30-eea9-4add-a8af-b143c4a1789f" />
+
 Overview
 The Newsletter Automation System is a Google Apps Script-based solution that automates the process of sending personalized emails to multiple recipients using data from a Google Spreadsheet. The system is designed to run automatically on a weekly schedule, managing email distribution while maintaining a record of sent messages.
 System Components
