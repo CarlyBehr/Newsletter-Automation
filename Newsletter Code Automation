@@ -1,0 +1,61 @@
+function sendNewsletterEmails() {
+  // Get the active spreadsheet and sheet
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const dataRange = sheet.getDataRange();
+  const data = dataRange.getValues();
+  
+  // Skip header row
+  for (let i = 1; i < data.length; i++) {
+    const row = data[i];
+    const emailAddress = row[0];  // Column A
+    const subject = row[1];       // Column B
+    const message = row[2];       // Column C
+    const sentStatus = row[3];    // Column D
+    
+    // Skip if email already sent or row is empty
+    if (sentStatus || !emailAddress) {
+      continue;
+    }
+    
+    try {
+      // Validate email address
+      if (!validateEmail(emailAddress)) {
+        sheet.getRange(i + 1, 4).setValue('Invalid email address');
+        continue;
+      }
+      
+      // Send email
+      GmailApp.sendEmail(emailAddress, subject, message);
+      
+      // Update "Sent" status with timestamp
+      const timestamp = new Date().toLocaleString();
+      sheet.getRange(i + 1, 4).setValue(timestamp);
+      
+      // Add small delay to avoid hitting quotas
+      Utilities.sleep(1000);
+      
+    } catch (error) {
+      // Log error and update status
+      Logger.log('Error sending to ' + emailAddress + ': ' + error.toString());
+      sheet.getRange(i + 1, 4).setValue('Error: ' + error.toString());
+    }
+  }
+}
+
+// Email validation helper function
+function validateEmail(email) {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email);
+}
+
+// Test function to verify spreadsheet access
+function testSpreadsheetAccess() {
+  try {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    Logger.log('Successfully accessed sheet: ' + sheet.getName());
+    return true;
+  } catch (error) {
+    Logger.log('Error accessing spreadsheet: ' + error.toString());
+    return false;
+  }
+}
