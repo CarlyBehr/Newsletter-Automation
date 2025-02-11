@@ -1,0 +1,16 @@
+Requirements:
+The script should use Gmail to send the emails.
+The newsletter content should be pulled from a Google Sheet. Each row in the sheet contains information for one email (e.g., recipient email address, subject line, and message body).
+The script should run automatically every week (e.g., every Monday morning at 9 AM).
+Structure:
+The Google Sheet is structured as follows:
+Column A: Recipient email address
+Column B: Email subject line
+Column C: Email message body
+Column D: (Optional) A “Sent” status column that marks whether the email has already been sent.
+The script should only send emails to rows where the “Sent” column is blank.
+Additional Features:
+After sending an email, the script should update the “Sent” column with the date it was sent to avoid duplicate sends.
+If possible, include error handling for situations like missing email addresses or blank rows.
+Trigger:
+Set up a time-based trigger in Google Apps Script so the script runs weekly without manual intervention.
